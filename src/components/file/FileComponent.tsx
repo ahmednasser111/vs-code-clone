@@ -3,7 +3,7 @@ import { File } from "../../interfaces";
 import { useState } from "react";
 import RenderFileIcon from "../renderFileIcon/RenderFileIcon";
 import { useAppDispatch } from "../../app/hooks";
-import { open } from "../../app/features/FileTreeSlice";
+import { openTab } from "../../app/features/FileTreeSlice";
 
 function FileComponent(file: File) {
 	const dispatch = useAppDispatch();
@@ -14,7 +14,7 @@ function FileComponent(file: File) {
 		setIsExpanded((prev) => !prev);
 	};
 
-	const openFile = () => dispatch(open(file));
+	const openFile = () => dispatch(openTab(file));
 
 	const handleKeyDown = (event: React.KeyboardEvent) => {
 		if (event.key === "Enter") {

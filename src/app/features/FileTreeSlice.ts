@@ -3,39 +3,97 @@ import { File } from "../../interfaces";
 
 export interface FileTreeState {
 	tabs: File[];
-	openedFile: Partial<File>;
+	activeTab: File | null;
 }
 
 const initialState: FileTreeState = {
 	tabs: [],
-	openedFile: {},
+	activeTab: null,
 };
 
 export const FileTreeSlice = createSlice({
 	name: "fileTree",
 	initialState,
 	reducers: {
-		open: (state, action: PayloadAction<File>) => {
-			state.openedFile = action.payload;
-			if (state.tabs.find((tab) => tab.id === action.payload.id)) {
-				alert("exists!");
-				return;
+		openTab: (state, action: PayloadAction<File>) => {
+			// If tab doesn't exist, add it
+			if (!state.tabs.find((tab) => tab.id === action.payload.id)) {
+				state.tabs.push(action.payload);
 			}
-			state.tabs.push(action.payload);
+			// Set as active tab
+			state.activeTab = action.payload;
 		},
-		// decrement: (state) => {
-		// 	state.value -= 1;
-		// },
-		// // Use the PayloadAction type to declare the contents of `action.payload`
-		// incrementByAmount: (state, action: PayloadAction<number>) => {
-		// 	state.value += action.payload;
-		// },
+
+		closeTab: (state, action: PayloadAction<string>) => {
+			state.tabs = state.tabs.filter((tab) => tab.id !== action.payload);
+
+			// If we closed the active tab, set the last tab as active, or null if no tabs left
+			if (state.activeTab?.id === action.payload) {
+				state.activeTab =
+					state.tabs.length > 0 ? state.tabs[state.tabs.length - 1] : null;
+			}
+		},
+
+		setActiveTab: (state, action: PayloadAction<string>) => {
+			const tab = state.tabs.find((tab) => tab.id === action.payload);
+			if (tab) {
+				state.activeTab = tab;
+			}
+		},
+
+		closeTabs: (
+			state,
+			action: PayloadAction<"all" | "others" | "right" | "left">
+		) => {
+			const currentTabIndex = state.activeTab
+				? state.tabs.findIndex((tab) => tab.id === state.activeTab?.id)
+				: -1;
+
+			switch (action.payload) {
+				case "all":
+					state.tabs = [];
+					state.activeTab = null;
+					break;
+
+				case "others":
+					if (state.activeTab) {
+						state.tabs = [state.activeTab];
+					}
+					break;
+
+				case "right":
+					if (currentTabIndex !== -1) {
+						state.tabs = state.tabs.slice(0, currentTabIndex + 1);
+					}
+					break;
+
+				case "left":
+					if (currentTabIndex !== -1) {
+						state.tabs = state.tabs.slice(currentTabIndex);
+					}
+					break;
+			}
+		},
+
+		reorderTabs: (
+			state,
+			action: PayloadAction<{ fromIndex: number; toIndex: number }>
+		) => {
+			const { fromIndex, toIndex } = action.payload;
+			const [movedTab] = state.tabs.splice(fromIndex, 1);
+			state.tabs.splice(toIndex, 0, movedTab);
+		},
 	},
 });
 
-export const { open } = FileTreeSlice.actions;
+export const { openTab, closeTab, setActiveTab, closeTabs, reorderTabs } =
+	FileTreeSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
-// export const selectCount = (state: RootState) => state.counter.value;
+// Selectors
+export const selectTabs = (state: { FileTree: FileTreeState }) =>
+	state.FileTree.tabs;
+export const selectActiveTab = (state: { FileTree: FileTreeState }) =>
+	state.FileTree.activeTab;
+// selectActiveFile selector is no longer needed since activeTab is now the File itself
 
 export default FileTreeSlice.reducer;
