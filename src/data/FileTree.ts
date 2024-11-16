@@ -16,6 +16,7 @@ export const FileTree: File[] = [
 						id: uuid(),
 						isFolder: false,
 						name: "App.tsx",
+						content: 'name: "App.tsx",',
 					},
 					{
 						id: uuid(),

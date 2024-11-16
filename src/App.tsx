@@ -3,7 +3,7 @@ import { FileTree } from "./data/FileTree";
 import { useAppSelector } from "./app/hooks";
 import TabsBar from "./components/ui/TabsBar";
 import FileContent from "@/components/ui/FileContent";
-import { FileIconPath } from "./constants";
+import { languageMap } from "./constants/index";
 
 function App() {
 	const activeTab = useAppSelector((state) => state.FileTree.activeTab);
@@ -12,7 +12,7 @@ function App() {
 	// Helper function to determine file language based on extension
 	const getFileLanguage = (filename: string) => {
 		const extension = filename.split(".").pop()?.toLowerCase();
-		return FileIconPath[extension || ""] || "";
+		return languageMap[extension || ""] || "";
 	};
 
 	return (
@@ -30,6 +30,7 @@ function App() {
 								name={file.name}
 								isFolder={file.isFolder}
 								children={file.children}
+								content={file.content}
 							/>
 						</div>
 					))}

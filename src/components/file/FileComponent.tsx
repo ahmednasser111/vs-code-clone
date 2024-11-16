@@ -59,6 +59,7 @@ function FileComponent(file: File) {
 							name={child.name}
 							isFolder={child.isFolder}
 							children={child.children}
+							content={child.content}
 						/>
 					))}
 				</div>

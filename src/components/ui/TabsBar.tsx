@@ -1,7 +1,7 @@
 import React from "react";
 import { X } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import RenderFileIcon from "../renderFileIcon/RenderFileIcon";
 import { closeTab, setActiveTab } from "@/app/features/FileTreeSlice";
 
