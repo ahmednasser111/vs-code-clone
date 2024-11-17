@@ -365,7 +365,7 @@ export const languageMap: Record<string, string> = {
 
 	// Build tools and config
 	gradle: "groovy",
-	"gradle.kts": "kotlin",
+	kts: "kotlin",
 	cmake: "cmake",
 	makefile: "makefile",
 	dockerfile: "docker",
@@ -374,17 +374,7 @@ export const languageMap: Record<string, string> = {
 	gemfile: "ruby",
 	gulpfile: "javascript",
 	gruntfile: "javascript",
-	"webpack.config": "javascript",
-
-	// Testing
-	"spec.js": "javascript",
-	"test.js": "javascript",
-	"spec.ts": "typescript",
-	"test.ts": "typescript",
-	"spec.jsx": "jsx",
-	"test.jsx": "jsx",
-	"spec.tsx": "tsx",
-	"test.tsx": "tsx",
+	config: "javascript",
 
 	// Others
 	r: "r",

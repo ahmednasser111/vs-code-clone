@@ -11,8 +11,8 @@ function App() {
 
 	// Helper function to determine file language based on extension
 	const getFileLanguage = (filename: string) => {
-		const extension = filename.split(".").pop()?.toLowerCase();
-		return languageMap[extension || ""] || "";
+		const extension = filename.split(".").pop()?.toLowerCase() || "";
+		return languageMap[extension];
 	};
 
 	return (
@@ -49,7 +49,7 @@ function App() {
 						<div className="h-full">
 							{activeTab && (
 								<FileContent
-									content={activeTab.content}
+									content={activeTab.content || ""}
 									language={getFileLanguage(activeTab.name)}
 								/>
 							)}

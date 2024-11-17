@@ -2,7 +2,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface IProps {
-	content: string | undefined;
+	content: string;
 	language: string;
 }
 const FileContent = ({ content, language }: IProps) => {
