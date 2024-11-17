@@ -1,4 +1,3 @@
-import React from "react";
 import { X } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/Tabs";
