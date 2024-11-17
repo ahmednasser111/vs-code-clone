@@ -3,7 +3,13 @@ const flowbite = require("flowbite-react/tailwind");
 
 export default {
 	darkMode: ["class"],
-	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", flowbite.content()],
+	content: [
+		"./index.html",
+		"./src/**/*.{js,ts,jsx,tsx}",
+		flowbite.content(),
+		"./src/**/*.{js,jsx,ts,tsx}",
+		"./node_modules/@shadcn/**/*.{js,ts,jsx,tsx}",
+	],
 	theme: {
 		extend: {
 			borderRadius: {
