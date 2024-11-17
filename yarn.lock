@@ -2132,6 +2132,11 @@ react-refresh@^0.14.2:
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.14.2.tgz"
   integrity sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==
 
+react-resizable-panels@^2.1.7:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/react-resizable-panels/-/react-resizable-panels-2.1.7.tgz#afd29d8a3d708786a9f95183a38803c89f13c2e7"
+  integrity sha512-JtT6gI+nURzhMYQYsx8DKkx6bSoOGFp7A3CwMrOb8y5jFHFyqwo9m68UhmXRw57fRVJksFn1TSlm3ywEQ9vMgA==
+
 react-syntax-highlighter@^15.6.1:
   version "15.6.1"
   resolved "https://registry.npmjs.org/react-syntax-highlighter/-/react-syntax-highlighter-15.6.1.tgz"
@@ -2383,6 +2388,11 @@ tailwind-merge@^2.5.4:
   version "2.5.4"
   resolved "https://registry.npmjs.org/tailwind-merge/-/tailwind-merge-2.5.4.tgz"
   integrity sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==
+
+tailwind-scrollbar@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.npmjs.org/tailwind-scrollbar/-/tailwind-scrollbar-3.1.0.tgz"
+  integrity sha512-pmrtDIZeHyu2idTejfV59SbaJyvp1VRjYxAjZBH0jnyrPRo6HL1kD5Glz8VPagasqr6oAx6M05+Tuw429Z8jxg==
 
 tailwindcss-animate@^1.0.7:
   version "1.0.7"
