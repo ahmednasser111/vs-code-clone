@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
-import { Tabs, TabsList, TabsTrigger } from "./Tabs";
-import RenderFileIcon from "../renderFileIcon/RenderFileIcon";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import RenderFileIcon from "./renderFileIcon/RenderFileIcon";
 import { closeTab, setActiveTab } from "@/app/features/FileTreeSlice";
 
 const TabsBar = () => {

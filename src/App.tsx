@@ -1,7 +1,7 @@
 import FileComponent from "./components/file/FileComponent";
 import { FileTree } from "./data/FileTree";
 import { useAppSelector } from "./app/hooks";
-import TabsBar from "./components/ui/TabsBar";
+import TabsBar from "./components/TabsBar";
 import FileContent from "@/components/ui/FileContent";
 import { languageMap } from "./constants/index";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
