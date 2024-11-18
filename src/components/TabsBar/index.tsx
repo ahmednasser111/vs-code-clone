@@ -1,17 +1,20 @@
 import { X } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
-import RenderFileIcon from "./renderFileIcon/RenderFileIcon";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import RenderFileIcon from "@/components/RenderFileIcon";
 import { closeTab, setActiveTab } from "@/app/features/FileTreeSlice";
+import { useState } from "react";
+import DropMenu from "../DropMenu";
 
 const TabsBar = () => {
 	const tabs = useAppSelector((state) => state.FileTree.tabs);
 	const activeTabId = useAppSelector((state) => state.FileTree.activeTab?.id);
 	const dispatch = useAppDispatch();
+	const [menuVisible, setMenuVisible] = useState(false);
+	const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
-	// If no tabs are open, don't render the tabs bar
 	if (tabs.length === 0) {
-		return <div className="h-9 bg-[#010409] border-b border-[#21262D]" />;
+		return <div className="h-10 bg-[#010409] border-b border-[#21262D]" />;
 	}
 
 	const handleTabClose = (e: React.MouseEvent, tabId: string) => {
@@ -23,11 +26,18 @@ const TabsBar = () => {
 		dispatch(setActiveTab(tabId));
 	};
 
+	const handleDropMenu = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		e.preventDefault();
+		setMenuPosition({ x: e.pageX, y: e.pageY });
+		setMenuVisible(true);
+	};
+
 	return (
-		<div className="bg-[#010409] border-b border-[#21262D]">
+		<div className="h-10 bg-[#010409] border-b border-[#21262D]">
 			<Tabs
 				value={activeTabId || undefined}
 				onValueChange={handleTabChange}
+				onContextMenu={handleDropMenu}
 				className="w-full">
 				<TabsList className="h-9 bg-transparent gap-0 justify-start w-full rounded-none">
 					{tabs.map((tab) => (
@@ -53,6 +63,10 @@ const TabsBar = () => {
 						</TabsTrigger>
 					))}
 				</TabsList>
+				<DropMenu
+					onClose={() => setMenuVisible(false)}
+					position={menuPosition}
+				/>
 			</Tabs>
 		</div>
 	);

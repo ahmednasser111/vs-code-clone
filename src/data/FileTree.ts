@@ -481,4 +481,9 @@ root.render(
   }
 }`,
 	},
+	{
+		id: uuid(),
+		name: "test.py",
+		isFolder: false,
+	},
 ];

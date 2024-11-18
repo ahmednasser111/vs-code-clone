@@ -1,7 +1,7 @@
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { File } from "../../interfaces";
 import { useState } from "react";
-import RenderFileIcon from "../renderFileIcon/RenderFileIcon";
+import RenderFileIcon from "../RenderFileIcon";
 import { useAppDispatch } from "../../app/hooks";
 import { openTab } from "../../app/features/FileTreeSlice";
 

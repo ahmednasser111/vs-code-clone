@@ -137,6 +137,7 @@ export const FileIconPath: Record<string, string> = {
 	puppet: "puppet",
 	purescript: "purescript",
 	python: "python",
+	py: "python",
 	r: "r",
 	rails: "rails",
 	razor: "razor",
