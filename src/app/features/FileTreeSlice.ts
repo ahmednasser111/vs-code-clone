@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { File } from "../../interfaces";
+import { File, FileTab } from "../../interfaces";
+import { StatementSync } from "node:sqlite";
 
 export interface FileTreeState {
-	tabs: File[];
-	activeTab: File | null;
+	tabs: FileTab[];
+	activeTab: FileTab | null;
 }
 
 const initialState: FileTreeState = {
@@ -16,28 +17,42 @@ export const FileTreeSlice = createSlice({
 	initialState,
 	reducers: {
 		openTab: (state, action: PayloadAction<File>) => {
-			// If tab doesn't exist, add it
-			if (!state.tabs.find((tab) => tab.id === action.payload.id)) {
-				state.tabs.push(action.payload);
-			}
+			const now = Date.now();
+
+			const isExists = state.tabs.findIndex(
+				(tab) => tab.id === action.payload.id
+			);
+			if (isExists !== -1)
+				state.tabs[isExists] = { ...action.payload, lastVisitedTime: now };
+			else state.tabs.push({ ...action.payload, lastVisitedTime: now });
+
 			// Set as active tab
-			state.activeTab = action.payload;
+			state.activeTab = { ...action.payload, lastVisitedTime: now };
 		},
 
 		closeTab: (state, action: PayloadAction<string>) => {
 			state.tabs = state.tabs.filter((tab) => tab.id !== action.payload);
 
-			// If we closed the active tab, set the last tab as active, or null if no tabs left
 			if (state.activeTab?.id === action.payload) {
-				state.activeTab =
-					state.tabs.length > 0 ? state.tabs[state.tabs.length - 1] : null;
+				const mostRecentVisitedTab = state.tabs.reduce(
+					(maxTab, tab) =>
+						tab.lastVisitedTime > maxTab.lastVisitedTime ? tab : maxTab,
+					state.tabs[0]
+				);
+
+				state.activeTab = state.tabs.length > 0 ? mostRecentVisitedTab : null;
 			}
 		},
 
 		setActiveTab: (state, action: PayloadAction<string>) => {
-			const tab = state.tabs.find((tab) => tab.id === action.payload);
-			if (tab) {
-				state.activeTab = tab;
+			const now = Date.now();
+			const tabIndex = state.tabs.findIndex((tab) => tab.id === action.payload);
+			if (tabIndex !== -1) {
+				state.tabs[tabIndex] = {
+					...state.tabs[tabIndex],
+					lastVisitedTime: now,
+				};
+				state.activeTab = state.tabs[tabIndex];
 			}
 		},
 

@@ -5,3 +5,6 @@ export interface File {
 	children?: File[];
 	content?: string;
 }
+export interface FileTab extends File {
+	lastVisitedTime: number;
+}
