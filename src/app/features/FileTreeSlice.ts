@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { File, FileTab } from "../../interfaces";
-import { StatementSync } from "node:sqlite";
 
 export interface FileTreeState {
 	tabs: FileTab[];
