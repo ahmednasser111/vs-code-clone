@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from "@/app/hooks";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import RenderFileIcon from "@/components/RenderFileIcon";
 import { closeTab, setActiveTab } from "@/app/features/FileTreeSlice";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DropMenu from "../DropMenu";
 
 const TabsBar = () => {
@@ -12,32 +12,44 @@ const TabsBar = () => {
 	const dispatch = useAppDispatch();
 	const [menuVisible, setMenuVisible] = useState(false);
 	const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+	const tabsRef = useRef(null);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (tabsRef.current && !tabsRef.current.contains(event.target)) {
+				setMenuVisible(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
 
 	if (tabs.length === 0) {
 		return <div className="h-10 bg-[#010409] border-b border-[#21262D]" />;
 	}
 
-	const handleTabClose = (e: React.MouseEvent, tabId: string) => {
+	const handleTabClose = (e, tabId) => {
 		e.stopPropagation();
 		dispatch(closeTab(tabId));
 	};
 
-	const handleTabChange = (tabId: string) => {
+	const handleTabChange = (tabId) => {
 		dispatch(setActiveTab(tabId));
 	};
 
-	const handleDropMenu = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const handleContextMenu = (e) => {
 		e.preventDefault();
 		setMenuPosition({ x: e.pageX, y: e.pageY });
 		setMenuVisible(true);
 	};
 
 	return (
-		<div className="h-10 bg-[#010409] border-b border-[#21262D]">
+		<div className="h-10 bg-[#010409] border-b border-[#21262D]" ref={tabsRef}>
 			<Tabs
 				value={activeTabId || undefined}
 				onValueChange={handleTabChange}
-				onContextMenu={handleDropMenu}
+				onContextMenu={handleContextMenu}
 				className="w-full">
 				<TabsList className="h-9 bg-transparent gap-0 justify-start w-full rounded-none">
 					{tabs.map((tab) => (
@@ -63,11 +75,15 @@ const TabsBar = () => {
 						</TabsTrigger>
 					))}
 				</TabsList>
+			</Tabs>
+			{menuVisible && (
 				<DropMenu
 					onClose={() => setMenuVisible(false)}
 					position={menuPosition}
+					activeTabId={activeTabId}
+					tabs={tabs}
 				/>
-			</Tabs>
+			)}
 		</div>
 	);
 };

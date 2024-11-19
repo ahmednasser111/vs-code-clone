@@ -8,3 +8,8 @@ export interface File {
 export interface FileTab extends File {
 	lastVisitedTime: number;
 }
+
+export interface Point {
+	x: number;
+	y: number;
+}
