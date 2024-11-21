@@ -3,7 +3,11 @@ import { X } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import RenderFileIcon from "@/components/RenderFileIcon";
-import { closeTab, setActiveTab } from "@/app/features/FileTreeSlice";
+import {
+	closeTab,
+	setActiveTab,
+	reorderTabs,
+} from "@/app/features/FileTreeSlice";
 import DropMenu from "../DropMenu";
 import { FileTab } from "../../interfaces/index";
 
@@ -17,6 +21,7 @@ const TabsBar: React.FC = () => {
 		y: 0,
 	});
 	const tabsRef = useRef<HTMLDivElement | null>(null);
+	const [draggedTabIndex, setDraggedTabIndex] = useState<number | null>(null);
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -25,8 +30,8 @@ const TabsBar: React.FC = () => {
 			}
 		};
 
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => document.removeEventListener("mousedown", handleClickOutside);
+		document.addEventListener("click", handleClickOutside);
+		return () => document.removeEventListener("click", handleClickOutside);
 	}, []);
 
 	const handleTabClose = (
@@ -47,13 +52,50 @@ const TabsBar: React.FC = () => {
 		setMenuVisible(true);
 	};
 
+	const handleDragStart = (
+		e: React.DragEvent<HTMLButtonElement>,
+		index: number
+	) => {
+		setDraggedTabIndex(index);
+		e.dataTransfer?.setData("text/plain", index.toString());
+	};
+
+	const handleDragOver = (
+		e: React.DragEvent<HTMLButtonElement>,
+		index: number
+	) => {
+		e.preventDefault();
+		if (draggedTabIndex === null || draggedTabIndex === index) return;
+	};
+
+	const handleDrop = (
+		e: React.DragEvent<HTMLButtonElement>,
+		dropIndex: number
+	) => {
+		e.preventDefault();
+		if (draggedTabIndex === null || draggedTabIndex === dropIndex) return;
+
+		dispatch(
+			reorderTabs({
+				fromIndex: draggedTabIndex,
+				toIndex: dropIndex,
+			})
+		);
+
+		setDraggedTabIndex(null);
+	};
+
 	const renderedTabs = useMemo(() => {
-		return tabs.map((tab: FileTab) => (
+		return tabs.map((tab: FileTab, index: number) => (
 			<TabsTrigger
 				key={tab.id}
 				value={tab.id}
+				draggable
+				onDragStart={(e) => handleDragStart(e, index)}
+				onDragOver={(e) => handleDragOver(e, index)}
+				onDrop={(e) => handleDrop(e, index)}
 				className="relative group px-3 h-9 rounded-none border-r border-[#21262D] data-[state=active]:bg-[#0D1117] data-[state=active]:text-white text-[#8B949E] hover:bg-[#161B22]">
-				<div className="flex items-center gap-2 pr-3">
+				<div className="flex items-center gap-2 pr-4">
 					<span className="text-xs opacity-60">
 						<RenderFileIcon
 							isExpanded={false}
@@ -70,7 +112,7 @@ const TabsBar: React.FC = () => {
 				</button>
 			</TabsTrigger>
 		));
-	}, [tabs]);
+	}, [tabs, draggedTabIndex]);
 
 	if (tabs.length === 0) {
 		return <div className="h-10 bg-[#010409] border-b border-[#21262D]" />;

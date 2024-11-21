@@ -72,26 +72,142 @@ export const Header: React.FC = () => {
 					{
 						id: uuid(),
 						isFolder: false,
-						name: "Footer.tsx",
+						name: "Sidebar.tsx",
 						content: `import React from 'react';
-import '../styles/Footer.css';
-import { COMPANY_NAME } from '../utils/constants';
+import '../styles/Sidebar.css';
 
-export const Footer: React.FC = () => {
-  const year = new Date().getFullYear();
-  
+export const Sidebar: React.FC = () => {
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <p>&copy; {year} {COMPANY_NAME}. All rights reserved.</p>
-        <div className="footer-links">
-          <a href="/privacy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
-        </div>
-      </div>
-    </footer>
+    <aside className="sidebar">
+      <ul>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/settings">Settings</a></li>
+      </ul>
+    </aside>
   );
 };`,
+					},
+				],
+			},
+			{
+				id: uuid(),
+				isFolder: true,
+				name: "pages",
+				children: [
+					{
+						id: uuid(),
+						isFolder: false,
+						name: "Home.tsx",
+						content: `import React from 'react';
+import '../styles/Home.css';
+
+const Home: React.FC = () => {
+  return (
+    <div className="home">
+      <h1>Home Page</h1>
+      <p>Welcome to the home page.</p>
+    </div>
+  );
+};
+
+export default Home;`,
+					},
+					{
+						id: uuid(),
+						isFolder: false,
+						name: "About.tsx",
+						content: `import React from 'react';
+import '../styles/About.css';
+
+const About: React.FC = () => {
+  return (
+    <div className="about">
+      <h1>About Us</h1>
+      <p>Information about our company.</p>
+    </div>
+  );
+};
+
+export default About;`,
+					},
+					{
+						id: uuid(),
+						isFolder: false,
+						name: "Contact.tsx",
+						content: `import React from 'react';
+import '../styles/Contact.css';
+
+const Contact: React.FC = () => {
+  return (
+    <div className="contact">
+      <h1>Contact Us</h1>
+      <p>Contact information goes here.</p>
+    </div>
+  );
+};
+
+export default Contact;`,
+					},
+				],
+			},
+			{
+				id: uuid(),
+				isFolder: true,
+				name: "services",
+				children: [
+					{
+						id: uuid(),
+						isFolder: false,
+						name: "authService.ts",
+						content: `export const login = async (email: string, password: string) => {
+  // Implement login API call
+};
+
+export const register = async (userData: { name: string; email: string; password: string }) => {
+  // Implement registration API call
+};`,
+					},
+					{
+						id: uuid(),
+						isFolder: false,
+						name: "userService.ts",
+						content: `export const fetchUserProfile = async (userId: string) => {
+  // Fetch user profile details
+};`,
+					},
+				],
+			},
+			{
+				id: uuid(),
+				isFolder: true,
+				name: "assets",
+				children: [
+					{
+						id: uuid(),
+						isFolder: true,
+						name: "images",
+						children: [
+							{
+								id: uuid(),
+								isFolder: false,
+								name: "logo.png",
+								content: `[Binary content - logo image file]`,
+							},
+						],
+					},
+					{
+						id: uuid(),
+						isFolder: true,
+						name: "fonts",
+						children: [
+							{
+								id: uuid(),
+								isFolder: false,
+								name: "Roboto-Regular.ttf",
+								content: `[Binary content - font file]`,
+							},
+						],
 					},
 				],
 			},
@@ -133,46 +249,25 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 2rem;
-}
-
-.user-menu {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
 }`,
 					},
 					{
 						id: uuid(),
 						isFolder: false,
-						name: "Footer.css",
-						content: `.footer {
-  background-color: #f5f5f5;
-  padding: 2rem;
-  margin-top: auto;
+						name: "Sidebar.css",
+						content: `.sidebar {
+  width: 250px;
+  background-color: #f8f8f8;
+  padding: 1rem;
 }
 
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.sidebar ul {
+  list-style: none;
+  padding: 0;
 }
 
-.footer-links {
-  display: flex;
-  gap: 1rem;
+.sidebar li {
+  margin-bottom: 1rem;
 }`,
 					},
 				],
@@ -226,97 +321,33 @@ export const useAuth = () => {
   return { user, loading, login, logout };
 };`,
 					},
-					{
-						id: uuid(),
-						isFolder: false,
-						name: "useFetch.ts",
-						content: `import { useState, useEffect } from 'react';
-
-interface FetchState<T> {
-  data: T | null;
-  loading: boolean;
-  error: Error | null;
-}
-
-export const useFetch = <T>(url: string) => {
-  const [state, setState] = useState<FetchState<T>>({
-    data: null,
-    loading: true,
-    error: null,
-  });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        setState({ data, loading: false, error: null });
-      } catch (error) {
-        setState({ data: null, loading: false, error: error as Error });
-      }
-    };
-
-    fetchData();
-  }, [url]);
-
-  return state;
-};`,
-					},
 				],
 			},
 			{
 				id: uuid(),
 				isFolder: true,
-				name: "utils",
+				name: "types",
 				children: [
 					{
 						id: uuid(),
 						isFolder: false,
-						name: "helpers.ts",
-						content: `export const formatDate = (date: Date): string => {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(date);
-};
-
-export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(amount);
-};
-
-export const debounce = <T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): ((...args: Parameters<T>) => void) => {
-  let timeout: NodeJS.Timeout;
-  
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
-};`,
+						name: "index.d.ts",
+						content: `export interface User {
+  id: string;
+  name: string;
+  email: string;
+}`,
 					},
 					{
 						id: uuid(),
 						isFolder: false,
-						name: "constants.ts",
-						content: `export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
-export const COMPANY_NAME = 'MyApp Technologies';
-export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-export const SUPPORTED_FILE_TYPES = ['.jpg', '.png', '.pdf'];
-export const PASSWORD_MIN_LENGTH = 8;
-
-export const ROUTES = {
-  HOME: '/',
-  LOGIN: '/login',
-  REGISTER: '/register',
-  PROFILE: '/profile',
-  SETTINGS: '/settings',
-};`,
+						name: "Product.d.ts",
+						content: `export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+}`,
 					},
 				],
 			},

@@ -1,11 +1,12 @@
 import FileComponent from "./components/FIleComponent";
 import { FileTree } from "./data/FileTree";
 import { useAppSelector } from "./app/hooks";
-import TabsBar from "./components/TabsBar";
+
 import FileContent from "@/components/FileContent";
 import { languageMap } from "./constants";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import WelcomeTab from "./components/WelcomeTab";
+import TabsBar from "./components/TabsBar";
 
 export default function App() {
 	const activeTab = useAppSelector((state) => state.FileTree.activeTab);

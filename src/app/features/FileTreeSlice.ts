@@ -108,6 +108,5 @@ export const selectTabs = (state: { FileTree: FileTreeState }) =>
 	state.FileTree.tabs;
 export const selectActiveTab = (state: { FileTree: FileTreeState }) =>
 	state.FileTree.activeTab;
-// selectActiveFile selector is no longer needed since activeTab is now the File itself
 
 export default FileTreeSlice.reducer;

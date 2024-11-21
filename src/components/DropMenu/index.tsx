@@ -1,15 +1,7 @@
 import { closeTab } from "@/app/features/FileTreeSlice";
 import { useAppDispatch } from "@/app/hooks";
-import {
-	X,
-	Copy,
-	Maximize2,
-	MinusSquare,
-	ArrowLeftRight,
-	FolderOpen,
-	RefreshCw,
-	Lock,
-} from "lucide-react";
+import { X, ArrowLeftRight } from "lucide-react";
+import { closeTabs } from "../../app/features/FileTreeSlice";
 
 interface Props {
 	onClose: () => void;
@@ -32,14 +24,10 @@ const DropMenu: React.FC<Props> = ({
 				dispatch(closeTab(activeTabId));
 				break;
 			case "closeOthers":
-				tabs.forEach((tab) => {
-					if (tab.id !== activeTabId) {
-						dispatch(closeTab(tab.id));
-					}
-				});
+				dispatch(closeTabs("others"));
 				break;
 			case "closeAll":
-				tabs.forEach((tab) => dispatch(closeTab(tab.id)));
+				dispatch(closeTabs("all"));
 				break;
 			case "closeToTheRight":
 				const activeIndex = tabs.findIndex((tab) => tab.id === activeTabId);
@@ -47,27 +35,6 @@ const DropMenu: React.FC<Props> = ({
 					.slice(activeIndex + 1)
 					.forEach((tab) => dispatch(closeTab(tab.id)));
 				break;
-			// Implement other actions as needed
-			case "closeSaved":
-				console.log("closeSaved");
-				break;
-			case "keepOpen":
-				console.log("keepOpen");
-				break;
-			case "copyPath":
-				console.log("copyPath");
-				break;
-			case "revealInFileExplorer":
-				console.log("revealInFileExplorer");
-				break;
-			case "reopenClosedEditor":
-				console.log("reopenClosedEditor");
-				break;
-			case "splitEditor":
-				console.log("splitEditor");
-				break;
-			default:
-				console.log(`Action: ${action}`);
 		}
 		onClose();
 	};
@@ -97,39 +64,6 @@ const DropMenu: React.FC<Props> = ({
 					icon={<ArrowLeftRight />}
 					label="Close to the Right"
 					onClick={() => handleAction("closeToTheRight")}
-				/>
-				<MenuItem
-					icon={<MinusSquare />}
-					label="Close Saved"
-					onClick={() => handleAction("closeSaved")}
-				/>
-				<Separator />
-				<MenuItem
-					icon={<Lock />}
-					label="Keep Open"
-					onClick={() => handleAction("keepOpen")}
-				/>
-				<Separator />
-				<MenuItem
-					icon={<Copy />}
-					label="Copy Path"
-					onClick={() => handleAction("copyPath")}
-				/>
-				<MenuItem
-					icon={<FolderOpen />}
-					label="Reveal in File Explorer"
-					onClick={() => handleAction("revealInFileExplorer")}
-				/>
-				<Separator />
-				<MenuItem
-					icon={<RefreshCw />}
-					label="Reopen Closed Editor"
-					onClick={() => handleAction("reopenClosedEditor")}
-				/>
-				<MenuItem
-					icon={<Maximize2 />}
-					label="Split Editor"
-					onClick={() => handleAction("splitEditor")}
 				/>
 			</ul>
 		</div>
