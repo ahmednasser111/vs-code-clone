@@ -171,7 +171,7 @@ Distributed under the MIT License.
 
 ## Contact
 
-Your Name - [ahmednaser7707@gmail.com](mailto:ahmednaser7707@gmail.com)
+Ahmed Nasser - [ahmednaser7707@gmail.com](mailto:ahmednaser7707@gmail.com)
 
 Project Link: [hhttps://github.com/ahmednasser111/vs-code-clone](https://github.com/ahmednasser111/vs-code-clone)
 
